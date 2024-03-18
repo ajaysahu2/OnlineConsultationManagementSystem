@@ -1,26 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineConsultationManagementSystem.Data;
 using OnlineConsultationManagementSystem.Models;
 
 namespace OnlineConsultationManagementSystem.Controllers
 {
-    public class PatientsController : Controller
+    public class DoctorsController : Controller
     {
         private readonly ApplicationContext _context;
 
-        public PatientsController(ApplicationContext context)
+        public DoctorsController(ApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Patients
+        // GET: Doctors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Patient.ToListAsync());
+            return View(await _context.Doctors.ToListAsync());
         }
 
-        // GET: Patients/Details/5
+        // GET: Doctors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -28,39 +33,39 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patient
+            var doctors = await _context.Doctors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (patient == null)
+            if (doctors == null)
             {
                 return NotFound();
             }
 
-            return View(patient);
+            return View(doctors);
         }
 
-        // GET: Patients/Create
+        // GET: Doctors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Patients/Create
+        // POST: Doctors/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Gender,ContactInfo,DateOfBirth,Address")] Patient patient)
+        public async Task<IActionResult> Create([Bind("Id,Name,Specialization,ContactInfo")] Doctors doctors)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(patient);
+                _context.Add(doctors);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(patient);
+            return View(doctors);
         }
 
-        // GET: Patients/Edit/5
+        // GET: Doctors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -68,22 +73,22 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patient.FindAsync(id);
-            if (patient == null)
+            var doctors = await _context.Doctors.FindAsync(id);
+            if (doctors == null)
             {
                 return NotFound();
             }
-            return View(patient);
+            return View(doctors);
         }
 
-        // POST: Patients/Edit/5
+        // POST: Doctors/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Gender,ContactInfo,DateOfBirth,Address")] Patient patient)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Specialization,ContactInfo")] Doctors doctors)
         {
-            if (id != patient.Id)
+            if (id != doctors.Id)
             {
                 return NotFound();
             }
@@ -92,12 +97,12 @@ namespace OnlineConsultationManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(patient);
+                    _context.Update(doctors);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PatientExists(patient.Id))
+                    if (!DoctorsExists(doctors.Id))
                     {
                         return NotFound();
                     }
@@ -108,10 +113,10 @@ namespace OnlineConsultationManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(patient);
+            return View(doctors);
         }
 
-        // GET: Patients/Delete/5
+        // GET: Doctors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -119,34 +124,34 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patient
+            var doctors = await _context.Doctors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (patient == null)
+            if (doctors == null)
             {
                 return NotFound();
             }
 
-            return View(patient);
+            return View(doctors);
         }
 
-        // POST: Patients/Delete/5
+        // POST: Doctors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var patient = await _context.Patient.FindAsync(id);
-            if (patient != null)
+            var doctors = await _context.Doctors.FindAsync(id);
+            if (doctors != null)
             {
-                _context.Patient.Remove(patient);
+                _context.Doctors.Remove(doctors);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PatientExists(int id)
+        private bool DoctorsExists(int id)
         {
-            return _context.Patient.Any(e => e.Id == id);
+            return _context.Doctors.Any(e => e.Id == id);
         }
     }
 }

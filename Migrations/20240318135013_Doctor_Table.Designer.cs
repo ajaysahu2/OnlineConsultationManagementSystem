@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineConsultationManagementSystem.Data;
 
@@ -10,9 +11,11 @@ using OnlineConsultationManagementSystem.Data;
 namespace OnlineConsultationManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240318135013_Doctor_Table")]
+    partial class Doctor_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -45,19 +48,19 @@ namespace OnlineConsultationManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "05199f91-d29e-4e1e-b9a7-e41e598be415",
+                            Id = "3bbbab47-0c85-47e7-9a6c-4e70e9dec39a",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "bd7fabcf-d36f-4861-b5f9-3bd431c119c7",
+                            Id = "5614ecbe-3968-47b1-b382-74b101c26e80",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "61fc887f-a5b5-49f8-a568-df801ab6cd39",
+                            Id = "643f2447-330e-491b-93d4-eeac6e7785c0",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -185,15 +188,6 @@ namespace OnlineConsultationManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Doctors");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ContactInfo = 9696655411L,
-                            Name = "Ram",
-                            Specialization = "Physician"
-                        });
                 });
 
             modelBuilder.Entity("OnlineConsultationManagementSystem.Models.Domain.User", b =>
@@ -295,52 +289,6 @@ namespace OnlineConsultationManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Patient");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Hyderabad",
-                            ContactInfo = 6365633655L,
-                            DateOfBirth = new DateOnly(1993, 12, 1),
-                            Gender = "Male",
-                            Name = "Ajay"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "Kolkata",
-                            ContactInfo = 6365633655L,
-                            DateOfBirth = new DateOnly(1990, 12, 1),
-                            Gender = "Male",
-                            Name = "Anjay"
-                        });
-                });
-
-            modelBuilder.Entity("OnlineConsultationManagementSystem.Models.Sessions", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateOnly>("Session_Date_Time")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("VideoLink")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sessions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Session_Date_Time = new DateOnly(1993, 12, 1),
-                            VideoLink = "https://chat.openai.com/c/5d129c40-0119-40e6-8a7a-6ad30f40fc9b"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

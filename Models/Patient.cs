@@ -4,12 +4,18 @@ namespace OnlineConsultationManagementSystem.Models
 {
     public class Patient
     {
-        [Display(Name = "Patient Name")]
         [Key]
+        [Display(Name = "Patient Name")]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Gender { get; set; }
-        public long MobileNumber { get; set; }
+
+        [MinLength(10, ErrorMessage = "Enter a valid Phone Number")]
+        public long ContactInfo { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Date of Birth")]
+        public DateOnly DateOfBirth { get; set; }
 
         public string Address { get; set; }
     }

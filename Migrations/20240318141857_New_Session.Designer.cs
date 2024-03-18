@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineConsultationManagementSystem.Data;
 
@@ -10,9 +11,11 @@ using OnlineConsultationManagementSystem.Data;
 namespace OnlineConsultationManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240318141857_New_Session")]
+    partial class New_Session
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -45,19 +48,19 @@ namespace OnlineConsultationManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "05199f91-d29e-4e1e-b9a7-e41e598be415",
+                            Id = "57938fb5-497b-40f3-bbd9-376184eca60e",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "bd7fabcf-d36f-4861-b5f9-3bd431c119c7",
+                            Id = "7917c1c6-7c23-44fb-a30a-7046c2ad8898",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "61fc887f-a5b5-49f8-a568-df801ab6cd39",
+                            Id = "abcd6652-7e36-4b27-9a16-c8ff67f79c9f",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -295,26 +298,6 @@ namespace OnlineConsultationManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Patient");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Hyderabad",
-                            ContactInfo = 6365633655L,
-                            DateOfBirth = new DateOnly(1993, 12, 1),
-                            Gender = "Male",
-                            Name = "Ajay"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "Kolkata",
-                            ContactInfo = 6365633655L,
-                            DateOfBirth = new DateOnly(1990, 12, 1),
-                            Gender = "Male",
-                            Name = "Anjay"
-                        });
                 });
 
             modelBuilder.Entity("OnlineConsultationManagementSystem.Models.Sessions", b =>
@@ -333,14 +316,6 @@ namespace OnlineConsultationManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Sessions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Session_Date_Time = new DateOnly(1993, 12, 1),
-                            VideoLink = "https://chat.openai.com/c/5d129c40-0119-40e6-8a7a-6ad30f40fc9b"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
