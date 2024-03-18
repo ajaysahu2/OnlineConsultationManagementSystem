@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineConsultationManagementSystem.Data;
 
@@ -10,9 +11,11 @@ using OnlineConsultationManagementSystem.Data;
 namespace OnlineConsultationManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240315152551_PatientWithData.Data.ApplicationContext")]
+    partial class PatientWithDataDataApplicationContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -45,19 +48,19 @@ namespace OnlineConsultationManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "756c2354-2e70-46ba-ac7f-351361048c93",
+                            Id = "8b0b7129-aac1-4b13-91c1-9c3a978ba794",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "3ea2e13b-83f3-4a92-8126-2df2a96437ab",
+                            Id = "ceb9a311-73f9-4c38-a505-49b865f82109",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "ed625d83-8bfd-46de-8678-b6d13048183b",
+                            Id = "7827300c-6959-4554-b0a5-ec21f55031c5",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -261,24 +264,6 @@ namespace OnlineConsultationManagementSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Patient");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Address = "Hyderabad",
-                            Gender = "Male",
-                            MobileNumber = 6365633655L,
-                            Name = "Ajay"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Address = "Kolkata",
-                            Gender = "Male",
-                            MobileNumber = 6365633655L,
-                            Name = "Anjay"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
