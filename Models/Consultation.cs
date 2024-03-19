@@ -2,7 +2,7 @@
 
 namespace OnlineConsultationManagementSystem.Models
 {
-    public class Consultations
+    public class Consultation
     {
         [Key]
         public int ConsultationId { get; set; }

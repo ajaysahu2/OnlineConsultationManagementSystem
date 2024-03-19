@@ -22,7 +22,7 @@ namespace OnlineConsultationManagementSystem.Controllers
         // GET: Appointments
         public async Task<IActionResult> Index()
         {
-            var applicationContext = _context.Appointments.Include(a => a.Patient);
+            var applicationContext = _context.Appointments.Include(a => a.Consultation).Include(a => a.Doctor).Include(a => a.Patient).Include(a => a.Session);
             return View(await applicationContext.ToListAsync());
         }
 
@@ -34,21 +34,27 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var appointments = await _context.Appointments
+            var appointment = await _context.Appointments
+                .Include(a => a.Consultation)
+                .Include(a => a.Doctor)
                 .Include(a => a.Patient)
+                .Include(a => a.Session)
                 .FirstOrDefaultAsync(m => m.AppointmentId == id);
-            if (appointments == null)
+            if (appointment == null)
             {
                 return NotFound();
             }
 
-            return View(appointments);
+            return View(appointment);
         }
 
         // GET: Appointments/Create
         public IActionResult Create()
         {
+            ViewData["ConsultationId"] = new SelectList(_context.Consultations, "ConsultationId", "ConsultationId");
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "DoctorId");
             ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId");
+            ViewData["SessionId"] = new SelectList(_context.Sessions, "SessionId", "SessionId");
             return View();
         }
 
@@ -57,16 +63,19 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentId,PatientId,DoctorId,SessionId,ConsultationId")] Appointments appointments)
+        public async Task<IActionResult> Create([Bind("AppointmentId,PatientId,DoctorId,SessionId,ConsultationId")] Appointment appointment)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(appointments);
+                _context.Add(appointment);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId", appointments.PatientId);
-            return View(appointments);
+            ViewData["ConsultationId"] = new SelectList(_context.Consultations, "ConsultationId", "ConsultationId", appointment.ConsultationId);
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "DoctorId", appointment.DoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId", appointment.PatientId);
+            ViewData["SessionId"] = new SelectList(_context.Sessions, "SessionId", "SessionId", appointment.SessionId);
+            return View(appointment);
         }
 
         // GET: Appointments/Edit/5
@@ -77,13 +86,16 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var appointments = await _context.Appointments.FindAsync(id);
-            if (appointments == null)
+            var appointment = await _context.Appointments.FindAsync(id);
+            if (appointment == null)
             {
                 return NotFound();
             }
-            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId", appointments.PatientId);
-            return View(appointments);
+            ViewData["ConsultationId"] = new SelectList(_context.Consultations, "ConsultationId", "ConsultationId", appointment.ConsultationId);
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "DoctorId", appointment.DoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId", appointment.PatientId);
+            ViewData["SessionId"] = new SelectList(_context.Sessions, "SessionId", "SessionId", appointment.SessionId);
+            return View(appointment);
         }
 
         // POST: Appointments/Edit/5
@@ -91,9 +103,9 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,PatientId,DoctorId,SessionId,ConsultationId")] Appointments appointments)
+        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,PatientId,DoctorId,SessionId,ConsultationId")] Appointment appointment)
         {
-            if (id != appointments.AppointmentId)
+            if (id != appointment.AppointmentId)
             {
                 return NotFound();
             }
@@ -102,12 +114,12 @@ namespace OnlineConsultationManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(appointments);
+                    _context.Update(appointment);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AppointmentsExists(appointments.AppointmentId))
+                    if (!AppointmentExists(appointment.AppointmentId))
                     {
                         return NotFound();
                     }
@@ -118,8 +130,11 @@ namespace OnlineConsultationManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId", appointments.PatientId);
-            return View(appointments);
+            ViewData["ConsultationId"] = new SelectList(_context.Consultations, "ConsultationId", "ConsultationId", appointment.ConsultationId);
+            ViewData["DoctorId"] = new SelectList(_context.Doctors, "DoctorId", "DoctorId", appointment.DoctorId);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId", appointment.PatientId);
+            ViewData["SessionId"] = new SelectList(_context.Sessions, "SessionId", "SessionId", appointment.SessionId);
+            return View(appointment);
         }
 
         // GET: Appointments/Delete/5
@@ -130,15 +145,18 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var appointments = await _context.Appointments
+            var appointment = await _context.Appointments
+                .Include(a => a.Consultation)
+                .Include(a => a.Doctor)
                 .Include(a => a.Patient)
+                .Include(a => a.Session)
                 .FirstOrDefaultAsync(m => m.AppointmentId == id);
-            if (appointments == null)
+            if (appointment == null)
             {
                 return NotFound();
             }
 
-            return View(appointments);
+            return View(appointment);
         }
 
         // POST: Appointments/Delete/5
@@ -146,17 +164,17 @@ namespace OnlineConsultationManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var appointments = await _context.Appointments.FindAsync(id);
-            if (appointments != null)
+            var appointment = await _context.Appointments.FindAsync(id);
+            if (appointment != null)
             {
-                _context.Appointments.Remove(appointments);
+                _context.Appointments.Remove(appointment);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AppointmentsExists(int id)
+        private bool AppointmentExists(int id)
         {
             return _context.Appointments.Any(e => e.AppointmentId == id);
         }

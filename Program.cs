@@ -7,11 +7,8 @@ using OnlineConsultationManagementSystem.Util.Email;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<ApplicationContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("OCMS") ?? throw new InvalidOperationException("Connection string not found.")));
 
 builder.Services.AddIdentity<User, IdentityRole>(opt =>
 {

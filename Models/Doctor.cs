@@ -2,7 +2,7 @@
 
 namespace OnlineConsultationManagementSystem.Models
 {
-    public class Doctors
+    public class Doctor
     {
         [Key]
         [Display(Name = "Doctor Name")]

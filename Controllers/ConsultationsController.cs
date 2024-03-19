@@ -33,14 +33,14 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var consultations = await _context.Consultations
+            var consultation = await _context.Consultations
                 .FirstOrDefaultAsync(m => m.ConsultationId == id);
-            if (consultations == null)
+            if (consultation == null)
             {
                 return NotFound();
             }
 
-            return View(consultations);
+            return View(consultation);
         }
 
         // GET: Consultations/Create
@@ -54,15 +54,15 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ConsultationId,Prescription,Notes")] Consultations consultations)
+        public async Task<IActionResult> Create([Bind("ConsultationId,Prescription,Notes")] Consultation consultation)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(consultations);
+                _context.Add(consultation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(consultations);
+            return View(consultation);
         }
 
         // GET: Consultations/Edit/5
@@ -73,12 +73,12 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var consultations = await _context.Consultations.FindAsync(id);
-            if (consultations == null)
+            var consultation = await _context.Consultations.FindAsync(id);
+            if (consultation == null)
             {
                 return NotFound();
             }
-            return View(consultations);
+            return View(consultation);
         }
 
         // POST: Consultations/Edit/5
@@ -86,9 +86,9 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ConsultationId,Prescription,Notes")] Consultations consultations)
+        public async Task<IActionResult> Edit(int id, [Bind("ConsultationId,Prescription,Notes")] Consultation consultation)
         {
-            if (id != consultations.ConsultationId)
+            if (id != consultation.ConsultationId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace OnlineConsultationManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(consultations);
+                    _context.Update(consultation);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ConsultationsExists(consultations.ConsultationId))
+                    if (!ConsultationExists(consultation.ConsultationId))
                     {
                         return NotFound();
                     }
@@ -113,7 +113,7 @@ namespace OnlineConsultationManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(consultations);
+            return View(consultation);
         }
 
         // GET: Consultations/Delete/5
@@ -124,14 +124,14 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var consultations = await _context.Consultations
+            var consultation = await _context.Consultations
                 .FirstOrDefaultAsync(m => m.ConsultationId == id);
-            if (consultations == null)
+            if (consultation == null)
             {
                 return NotFound();
             }
 
-            return View(consultations);
+            return View(consultation);
         }
 
         // POST: Consultations/Delete/5
@@ -139,17 +139,17 @@ namespace OnlineConsultationManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var consultations = await _context.Consultations.FindAsync(id);
-            if (consultations != null)
+            var consultation = await _context.Consultations.FindAsync(id);
+            if (consultation != null)
             {
-                _context.Consultations.Remove(consultations);
+                _context.Consultations.Remove(consultation);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ConsultationsExists(int id)
+        private bool ConsultationExists(int id)
         {
             return _context.Consultations.Any(e => e.ConsultationId == id);
         }

@@ -33,14 +33,14 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var doctors = await _context.Doctors
+            var doctor = await _context.Doctors
                 .FirstOrDefaultAsync(m => m.DoctorId == id);
-            if (doctors == null)
+            if (doctor == null)
             {
                 return NotFound();
             }
 
-            return View(doctors);
+            return View(doctor);
         }
 
         // GET: Doctors/Create
@@ -54,15 +54,15 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DoctorId,Name,Specialization,ContactInfo")] Doctors doctors)
+        public async Task<IActionResult> Create([Bind("DoctorId,Name,Specialization,ContactInfo")] Doctor doctor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(doctors);
+                _context.Add(doctor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(doctors);
+            return View(doctor);
         }
 
         // GET: Doctors/Edit/5
@@ -73,12 +73,12 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var doctors = await _context.Doctors.FindAsync(id);
-            if (doctors == null)
+            var doctor = await _context.Doctors.FindAsync(id);
+            if (doctor == null)
             {
                 return NotFound();
             }
-            return View(doctors);
+            return View(doctor);
         }
 
         // POST: Doctors/Edit/5
@@ -86,9 +86,9 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DoctorId,Name,Specialization,ContactInfo")] Doctors doctors)
+        public async Task<IActionResult> Edit(int id, [Bind("DoctorId,Name,Specialization,ContactInfo")] Doctor doctor)
         {
-            if (id != doctors.DoctorId)
+            if (id != doctor.DoctorId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace OnlineConsultationManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(doctors);
+                    _context.Update(doctor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DoctorsExists(doctors.DoctorId))
+                    if (!DoctorExists(doctor.DoctorId))
                     {
                         return NotFound();
                     }
@@ -113,7 +113,7 @@ namespace OnlineConsultationManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(doctors);
+            return View(doctor);
         }
 
         // GET: Doctors/Delete/5
@@ -124,14 +124,14 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var doctors = await _context.Doctors
+            var doctor = await _context.Doctors
                 .FirstOrDefaultAsync(m => m.DoctorId == id);
-            if (doctors == null)
+            if (doctor == null)
             {
                 return NotFound();
             }
 
-            return View(doctors);
+            return View(doctor);
         }
 
         // POST: Doctors/Delete/5
@@ -139,17 +139,17 @@ namespace OnlineConsultationManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var doctors = await _context.Doctors.FindAsync(id);
-            if (doctors != null)
+            var doctor = await _context.Doctors.FindAsync(id);
+            if (doctor != null)
             {
-                _context.Doctors.Remove(doctors);
+                _context.Doctors.Remove(doctor);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DoctorsExists(int id)
+        private bool DoctorExists(int id)
         {
             return _context.Doctors.Any(e => e.DoctorId == id);
         }

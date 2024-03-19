@@ -17,14 +17,14 @@ namespace OnlineConsultationManagementSystem.Data
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
 
-            modelBuilder.Entity<Sessions>().HasData(new Sessions
+            modelBuilder.Entity<Session>().HasData(new Session
             {
                 SessionId = 1,
                 Session_Date_Time = new DateOnly(1993, 12, 1),
                 VideoLink = "https://chat.openai.com/c/5d129c40-0119-40e6-8a7a-6ad30f40fc9b"
             });
 
-            modelBuilder.Entity<Doctors>().HasData(new Doctors
+            modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
                 DoctorId = 1,
                 Name = "Ram",
@@ -51,10 +51,10 @@ namespace OnlineConsultationManagementSystem.Data
                 Address = "Kolkata"
             }); 
         }
-        public DbSet<OnlineConsultationManagementSystem.Models.Patient> Patient { get; set; } = default!;
-        public DbSet<OnlineConsultationManagementSystem.Models.Doctors> Doctors { get; set; } = default!;
-        public DbSet<OnlineConsultationManagementSystem.Models.Sessions> Sessions { get; set; } = default!;
-        public DbSet<OnlineConsultationManagementSystem.Models.Consultations> Consultations { get; set; } = default!;
-        public DbSet<OnlineConsultationManagementSystem.Models.Appointments> Appointments { get; set; } = default!;
+        public DbSet<Patient> Patient { get; set; } = default!;
+        public DbSet<Doctor> Doctors { get; set; } = default!;
+        public DbSet<Session> Sessions { get; set; } = default!;
+        public DbSet<Consultation> Consultations { get; set; } = default!;
+        public DbSet<Appointment> Appointments { get; set; } = default!;
     }
 }

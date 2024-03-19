@@ -33,14 +33,14 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var sessions = await _context.Sessions
+            var session = await _context.Sessions
                 .FirstOrDefaultAsync(m => m.SessionId == id);
-            if (sessions == null)
+            if (session == null)
             {
                 return NotFound();
             }
 
-            return View(sessions);
+            return View(session);
         }
 
         // GET: Sessions/Create
@@ -54,15 +54,15 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SessionId,Session_Date_Time,VideoLink")] Sessions sessions)
+        public async Task<IActionResult> Create([Bind("SessionId,Session_Date_Time,VideoLink")] Session session)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sessions);
+                _context.Add(session);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(sessions);
+            return View(session);
         }
 
         // GET: Sessions/Edit/5
@@ -73,12 +73,12 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var sessions = await _context.Sessions.FindAsync(id);
-            if (sessions == null)
+            var session = await _context.Sessions.FindAsync(id);
+            if (session == null)
             {
                 return NotFound();
             }
-            return View(sessions);
+            return View(session);
         }
 
         // POST: Sessions/Edit/5
@@ -86,9 +86,9 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SessionId,Session_Date_Time,VideoLink")] Sessions sessions)
+        public async Task<IActionResult> Edit(int id, [Bind("SessionId,Session_Date_Time,VideoLink")] Session session)
         {
-            if (id != sessions.SessionId)
+            if (id != session.SessionId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace OnlineConsultationManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(sessions);
+                    _context.Update(session);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SessionsExists(sessions.SessionId))
+                    if (!SessionExists(session.SessionId))
                     {
                         return NotFound();
                     }
@@ -113,7 +113,7 @@ namespace OnlineConsultationManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(sessions);
+            return View(session);
         }
 
         // GET: Sessions/Delete/5
@@ -124,14 +124,14 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var sessions = await _context.Sessions
+            var session = await _context.Sessions
                 .FirstOrDefaultAsync(m => m.SessionId == id);
-            if (sessions == null)
+            if (session == null)
             {
                 return NotFound();
             }
 
-            return View(sessions);
+            return View(session);
         }
 
         // POST: Sessions/Delete/5
@@ -139,17 +139,17 @@ namespace OnlineConsultationManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var sessions = await _context.Sessions.FindAsync(id);
-            if (sessions != null)
+            var session = await _context.Sessions.FindAsync(id);
+            if (session != null)
             {
-                _context.Sessions.Remove(sessions);
+                _context.Sessions.Remove(session);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SessionsExists(int id)
+        private bool SessionExists(int id)
         {
             return _context.Sessions.Any(e => e.SessionId == id);
         }
