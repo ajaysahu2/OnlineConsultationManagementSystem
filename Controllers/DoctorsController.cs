@@ -34,7 +34,7 @@ namespace OnlineConsultationManagementSystem.Controllers
             }
 
             var doctors = await _context.Doctors
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.DoctorId == id);
             if (doctors == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Specialization,ContactInfo")] Doctors doctors)
+        public async Task<IActionResult> Create([Bind("DoctorId,Name,Specialization,ContactInfo")] Doctors doctors)
         {
             if (ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Specialization,ContactInfo")] Doctors doctors)
+        public async Task<IActionResult> Edit(int id, [Bind("DoctorId,Name,Specialization,ContactInfo")] Doctors doctors)
         {
-            if (id != doctors.Id)
+            if (id != doctors.DoctorId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace OnlineConsultationManagementSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DoctorsExists(doctors.Id))
+                    if (!DoctorsExists(doctors.DoctorId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace OnlineConsultationManagementSystem.Controllers
             }
 
             var doctors = await _context.Doctors
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.DoctorId == id);
             if (doctors == null)
             {
                 return NotFound();
@@ -151,7 +151,7 @@ namespace OnlineConsultationManagementSystem.Controllers
 
         private bool DoctorsExists(int id)
         {
-            return _context.Doctors.Any(e => e.Id == id);
+            return _context.Doctors.Any(e => e.DoctorId == id);
         }
     }
 }

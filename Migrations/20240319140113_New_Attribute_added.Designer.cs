@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineConsultationManagementSystem.Data;
 
@@ -10,9 +11,11 @@ using OnlineConsultationManagementSystem.Data;
 namespace OnlineConsultationManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20240319140113_New_Attribute_added")]
+    partial class New_Attribute_added
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
@@ -45,19 +48,19 @@ namespace OnlineConsultationManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "df63ef11-7864-480b-996e-2cc6bd468b6d",
+                            Id = "4da3b569-fc48-4ca9-972e-58a34b4a9c00",
                             Name = "Patient",
                             NormalizedName = "PATIENT"
                         },
                         new
                         {
-                            Id = "6b524832-e756-46ad-a8b6-26868574bf0a",
+                            Id = "64f9def1-60c3-4146-ba52-57e1b6ccfed7",
                             Name = "Doctor",
                             NormalizedName = "DOCTOR"
                         },
                         new
                         {
-                            Id = "d8e9b01e-b6d5-4408-97f3-b726316b1c5f",
+                            Id = "371d5699-4ea9-422f-a37b-86c7d5692b1c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -163,46 +166,6 @@ namespace OnlineConsultationManagementSystem.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("OnlineConsultationManagementSystem.Models.Appointments", b =>
-                {
-                    b.Property<int>("AppointmentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ConsultationId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ConsultationsConsultationId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("DoctorsDoctorId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PatientId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SessionId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SessionsSessionId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("AppointmentId");
-
-                    b.HasIndex("ConsultationsConsultationId");
-
-                    b.HasIndex("DoctorsDoctorId");
-
-                    b.HasIndex("PatientId");
-
-                    b.HasIndex("SessionsSessionId");
-
-                    b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("OnlineConsultationManagementSystem.Models.Consultations", b =>
@@ -451,41 +414,6 @@ namespace OnlineConsultationManagementSystem.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("OnlineConsultationManagementSystem.Models.Appointments", b =>
-                {
-                    b.HasOne("OnlineConsultationManagementSystem.Models.Consultations", "Consultations")
-                        .WithMany()
-                        .HasForeignKey("ConsultationsConsultationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineConsultationManagementSystem.Models.Doctors", "Doctors")
-                        .WithMany()
-                        .HasForeignKey("DoctorsDoctorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineConsultationManagementSystem.Models.Patient", "Patient")
-                        .WithMany()
-                        .HasForeignKey("PatientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineConsultationManagementSystem.Models.Sessions", "Sessions")
-                        .WithMany()
-                        .HasForeignKey("SessionsSessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Consultations");
-
-                    b.Navigation("Doctors");
-
-                    b.Navigation("Patient");
-
-                    b.Navigation("Sessions");
                 });
 #pragma warning restore 612, 618
         }

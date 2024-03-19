@@ -34,7 +34,7 @@ namespace OnlineConsultationManagementSystem.Controllers
             }
 
             var sessions = await _context.Sessions
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.SessionId == id);
             if (sessions == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Session_Date_Time,VideoLink")] Sessions sessions)
+        public async Task<IActionResult> Create([Bind("SessionId,Session_Date_Time,VideoLink")] Sessions sessions)
         {
             if (ModelState.IsValid)
             {
@@ -86,9 +86,9 @@ namespace OnlineConsultationManagementSystem.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Session_Date_Time,VideoLink")] Sessions sessions)
+        public async Task<IActionResult> Edit(int id, [Bind("SessionId,Session_Date_Time,VideoLink")] Sessions sessions)
         {
-            if (id != sessions.Id)
+            if (id != sessions.SessionId)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace OnlineConsultationManagementSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SessionsExists(sessions.Id))
+                    if (!SessionsExists(sessions.SessionId))
                     {
                         return NotFound();
                     }
@@ -125,7 +125,7 @@ namespace OnlineConsultationManagementSystem.Controllers
             }
 
             var sessions = await _context.Sessions
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.SessionId == id);
             if (sessions == null)
             {
                 return NotFound();
@@ -151,7 +151,7 @@ namespace OnlineConsultationManagementSystem.Controllers
 
         private bool SessionsExists(int id)
         {
-            return _context.Sessions.Any(e => e.Id == id);
+            return _context.Sessions.Any(e => e.SessionId == id);
         }
     }
 }

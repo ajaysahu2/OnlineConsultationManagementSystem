@@ -6,7 +6,7 @@ namespace OnlineConsultationManagementSystem.Models
     {
         [Key]
         [Display(Name = "Patient Name")]
-        public int Id { get; set; }
+        public int PatientId { get; set; }
         public string Name { get; set; }
         public string Gender { get; set; }
 

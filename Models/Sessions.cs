@@ -5,7 +5,7 @@ namespace OnlineConsultationManagementSystem.Models
     public class Sessions
     {
         [Key]
-        public int Id { get; set; }
+        public int SessionId { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Session Date Time")]
         public DateOnly Session_Date_Time { get; set; }

@@ -10,22 +10,23 @@ using OnlineConsultationManagementSystem.Models;
 
 namespace OnlineConsultationManagementSystem.Controllers
 {
-    public class PatientsController : Controller
+    public class AppointmentsController : Controller
     {
         private readonly ApplicationContext _context;
 
-        public PatientsController(ApplicationContext context)
+        public AppointmentsController(ApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Patients
+        // GET: Appointments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Patient.ToListAsync());
+            var applicationContext = _context.Appointments.Include(a => a.Patient);
+            return View(await applicationContext.ToListAsync());
         }
 
-        // GET: Patients/Details/5
+        // GET: Appointments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,42 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patient
-                .FirstOrDefaultAsync(m => m.PatientId == id);
-            if (patient == null)
+            var appointments = await _context.Appointments
+                .Include(a => a.Patient)
+                .FirstOrDefaultAsync(m => m.AppointmentId == id);
+            if (appointments == null)
             {
                 return NotFound();
             }
 
-            return View(patient);
+            return View(appointments);
         }
 
-        // GET: Patients/Create
+        // GET: Appointments/Create
         public IActionResult Create()
         {
+            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId");
             return View();
         }
 
-        // POST: Patients/Create
+        // POST: Appointments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PatientId,Name,Gender,ContactInfo,DateOfBirth,Address")] Patient patient)
+        public async Task<IActionResult> Create([Bind("AppointmentId,PatientId,DoctorId,SessionId,ConsultationId")] Appointments appointments)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(patient);
+                _context.Add(appointments);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(patient);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId", appointments.PatientId);
+            return View(appointments);
         }
 
-        // GET: Patients/Edit/5
+        // GET: Appointments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +77,23 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patient.FindAsync(id);
-            if (patient == null)
+            var appointments = await _context.Appointments.FindAsync(id);
+            if (appointments == null)
             {
                 return NotFound();
             }
-            return View(patient);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId", appointments.PatientId);
+            return View(appointments);
         }
 
-        // POST: Patients/Edit/5
+        // POST: Appointments/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PatientId,Name,Gender,ContactInfo,DateOfBirth,Address")] Patient patient)
+        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId,PatientId,DoctorId,SessionId,ConsultationId")] Appointments appointments)
         {
-            if (id != patient.PatientId)
+            if (id != appointments.AppointmentId)
             {
                 return NotFound();
             }
@@ -97,12 +102,12 @@ namespace OnlineConsultationManagementSystem.Controllers
             {
                 try
                 {
-                    _context.Update(patient);
+                    _context.Update(appointments);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PatientExists(patient.PatientId))
+                    if (!AppointmentsExists(appointments.AppointmentId))
                     {
                         return NotFound();
                     }
@@ -113,10 +118,11 @@ namespace OnlineConsultationManagementSystem.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(patient);
+            ViewData["PatientId"] = new SelectList(_context.Patient, "PatientId", "PatientId", appointments.PatientId);
+            return View(appointments);
         }
 
-        // GET: Patients/Delete/5
+        // GET: Appointments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +130,35 @@ namespace OnlineConsultationManagementSystem.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patient
-                .FirstOrDefaultAsync(m => m.PatientId == id);
-            if (patient == null)
+            var appointments = await _context.Appointments
+                .Include(a => a.Patient)
+                .FirstOrDefaultAsync(m => m.AppointmentId == id);
+            if (appointments == null)
             {
                 return NotFound();
             }
 
-            return View(patient);
+            return View(appointments);
         }
 
-        // POST: Patients/Delete/5
+        // POST: Appointments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var patient = await _context.Patient.FindAsync(id);
-            if (patient != null)
+            var appointments = await _context.Appointments.FindAsync(id);
+            if (appointments != null)
             {
-                _context.Patient.Remove(patient);
+                _context.Appointments.Remove(appointments);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PatientExists(int id)
+        private bool AppointmentsExists(int id)
         {
-            return _context.Patient.Any(e => e.PatientId == id);
+            return _context.Appointments.Any(e => e.AppointmentId == id);
         }
     }
 }
