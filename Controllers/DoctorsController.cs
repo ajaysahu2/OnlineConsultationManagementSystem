@@ -2,7 +2,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using OnlineConsultationManagementSystem.Data;
@@ -150,6 +151,7 @@
             }
 
         // GET: Doctors/Search
+        [Authorize]
         public IActionResult Search()
         {
             return View();
@@ -173,7 +175,7 @@
             }
 
             // Return the view with filtered doctors
-            return View("Index", await doctors.ToListAsync());
+            return View("Search", await doctors.ToListAsync());
         }
 
 
