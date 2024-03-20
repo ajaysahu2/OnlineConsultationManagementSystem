@@ -1,0 +1,22 @@
+﻿@model OnlineConsultationManagementSystem.Models.Doctor
+
+@{
+    ViewData["Title"] = "Search Doctors";
+}
+
+<h1>Search Doctors</h1>
+
+@using (Html.BeginForm("Search", "Doctors", FormMethod.Post))
+{
+    <div class="form-group">
+        <label for="searchString">Search:</label>
+        <input type="text" class="form-control" name="searchString" value="@Model" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+}
+
+<hr />
+
+<h2>Search Results</h2>
+
+<!-- Display search results here -->

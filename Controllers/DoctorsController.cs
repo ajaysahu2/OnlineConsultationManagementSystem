@@ -1,157 +1,186 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using OnlineConsultationManagementSystem.Data;
-using OnlineConsultationManagementSystem.Models;
+﻿    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using OnlineConsultationManagementSystem.Data;
+    using OnlineConsultationManagementSystem.Models;
 
-namespace OnlineConsultationManagementSystem.Controllers
-{
-    public class DoctorsController : Controller
+    namespace OnlineConsultationManagementSystem.Controllers
     {
-        private readonly ApplicationContext _context;
-
-        public DoctorsController(ApplicationContext context)
+        public class DoctorsController : Controller
         {
-            _context = context;
-        }
+            private readonly ApplicationContext _context;
 
-        // GET: Doctors
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Doctors.ToListAsync());
-        }
-
-        // GET: Doctors/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            public DoctorsController(ApplicationContext context)
             {
-                return NotFound();
+                _context = context;
             }
 
-            var doctor = await _context.Doctors
-                .FirstOrDefaultAsync(m => m.DoctorId == id);
-            if (doctor == null)
+            // GET: Doctors
+            public async Task<IActionResult> Index()
             {
-                return NotFound();
+                return View(await _context.Doctors.ToListAsync());
             }
 
-            return View(doctor);
-        }
+            // GET: Doctors/Details/5
+            public async Task<IActionResult> Details(int? id)
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-        // GET: Doctors/Create
-        public IActionResult Create()
+                var doctor = await _context.Doctors
+                    .FirstOrDefaultAsync(m => m.DoctorId == id);
+                if (doctor == null)
+                {
+                    return NotFound();
+                }
+
+                return View(doctor);
+            }
+
+            // GET: Doctors/Create
+            public IActionResult Create()
+            {
+                return View();
+            }
+
+            // POST: Doctors/Create
+            // To protect from overposting attacks, enable the specific properties you want to bind to.
+            // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+            public async Task<IActionResult> Create([Bind("DoctorId,Name,Specialization,ContactInfo")] Doctor doctor)
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(doctor);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(doctor);
+            }
+
+            // GET: Doctors/Edit/5
+            public async Task<IActionResult> Edit(int? id)
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var doctor = await _context.Doctors.FindAsync(id);
+                if (doctor == null)
+                {
+                    return NotFound();
+                }
+                return View(doctor);
+            }
+
+            // POST: Doctors/Edit/5
+            // To protect from overposting attacks, enable the specific properties you want to bind to.
+            // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+            [HttpPost]
+            [ValidateAntiForgeryToken]
+            public async Task<IActionResult> Edit(int id, [Bind("DoctorId,Name,Specialization,ContactInfo")] Doctor doctor)
+            {
+                if (id != doctor.DoctorId)
+                {
+                    return NotFound();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(doctor);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!DoctorExists(doctor.DoctorId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(doctor);
+            }
+
+            // GET: Doctors/Delete/5
+            public async Task<IActionResult> Delete(int? id)
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                var doctor = await _context.Doctors
+                    .FirstOrDefaultAsync(m => m.DoctorId == id);
+                if (doctor == null)
+                {
+                    return NotFound();
+                }
+
+                return View(doctor);
+            }
+
+            // POST: Doctors/Delete/5
+            [HttpPost, ActionName("Delete")]
+            [ValidateAntiForgeryToken]
+            public async Task<IActionResult> DeleteConfirmed(int id)
+            {
+                var doctor = await _context.Doctors.FindAsync(id);
+                if (doctor != null)
+                {
+                    _context.Doctors.Remove(doctor);
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+        // GET: Doctors/Search
+        public IActionResult Search()
         {
             return View();
         }
 
-        // POST: Doctors/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Doctors/Search
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DoctorId,Name,Specialization,ContactInfo")] Doctor doctor)
+        public async Task<IActionResult> Search(string searchString)
         {
-            if (ModelState.IsValid)
+            // Retrieve doctors based on search criteria
+            var doctors = from d in _context.Doctors
+                          select d;
+
+            if (!String.IsNullOrEmpty(searchString))
             {
-                _context.Add(doctor);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Filter doctors based on search string
+                doctors = doctors.Where(d => d.Name.Contains(searchString) ||
+                                             d.Specialization.Contains(searchString) ||
+                                             d.ContactInfo.ToString().Contains(searchString));
             }
-            return View(doctor);
+
+            // Return the view with filtered doctors
+            return View("Index", await doctors.ToListAsync());
         }
 
-        // GET: Doctors/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var doctor = await _context.Doctors.FindAsync(id);
-            if (doctor == null)
-            {
-                return NotFound();
-            }
-            return View(doctor);
-        }
-
-        // POST: Doctors/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("DoctorId,Name,Specialization,ContactInfo")] Doctor doctor)
-        {
-            if (id != doctor.DoctorId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(doctor);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DoctorExists(doctor.DoctorId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(doctor);
-        }
-
-        // GET: Doctors/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var doctor = await _context.Doctors
-                .FirstOrDefaultAsync(m => m.DoctorId == id);
-            if (doctor == null)
-            {
-                return NotFound();
-            }
-
-            return View(doctor);
-        }
-
-        // POST: Doctors/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var doctor = await _context.Doctors.FindAsync(id);
-            if (doctor != null)
-            {
-                _context.Doctors.Remove(doctor);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool DoctorExists(int id)
-        {
-            return _context.Doctors.Any(e => e.DoctorId == id);
+            {
+                return _context.Doctors.Any(e => e.DoctorId == id);
+            }
         }
     }
-}

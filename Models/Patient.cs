@@ -10,7 +10,7 @@ namespace OnlineConsultationManagementSystem.Models
         public string Name { get; set; }
         public string Gender { get; set; }
 
-        [MinLength(10, ErrorMessage = "Enter a valid Phone Number")]
+        //[MinLength(10, ErrorMessage = "Enter a valid Phone Number")]
         public long ContactInfo { get; set; }
 
         [DataType(DataType.Date)]
