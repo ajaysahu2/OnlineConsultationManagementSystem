@@ -8,11 +8,13 @@
 
 @using (Html.BeginForm("Search", "Doctors", FormMethod.Post))
 {
-    <div class="form-group">
-        <label for="searchString">Search:</label>
-        <input type="text" class="form-control" name="searchString" value="@Model" />
+    <div class="row">
+        <div class="form-group col-9">
+            <input type="text" class="form-control" name="searchString" value="@Model" />
+        </div>
+        <button type="submit" class="btn btn-primary col-3">Search</button>
     </div>
-    <button type="submit" class="btn btn-primary">Search</button>
+
 }
 
 <hr />

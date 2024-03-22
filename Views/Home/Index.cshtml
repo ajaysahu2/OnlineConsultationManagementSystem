@@ -3,6 +3,31 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome To Online Consultation </h1>
-    <p>Register To get online consultation</p>
+    <div class="card_container">
+        <div class="card" style="width: 18rem;">
+            <img src="~/icons/doc_video.jpg" class="card-img-top" style="height: 15rem;" />
+            <div class="card-body">
+                <h5 class="card-title">Instant Video Consultation</h5>
+                <p class="card-text">Connect Within 60 sec</p>
+                <a class="btn btn-primary" asp-controller="Doctors" asp-action="Search">Book Now</a>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <img src="~/icons/d-2.png" class="card-img-top" style="height: 15rem;" />
+            <div class="card-body">
+                <h5 class="card-title">Find Doctors Near you</h5>
+                <p class="card-text">Confirmed Appointment</p>
+                <a class="btn btn-primary" asp-controller="Doctors" asp-action="Search">Book Now</a>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <img src="~/icons/d_3.jpg" class="card-img-top" style="height: 15rem;" />
+            <div class="card-body">
+                <h5 class="card-title">Prescription from Specialized Doctor</h5>
+                <p class="card-text">Confirmed Appointment</p>
+                <a class="btn btn-primary" asp-controller="Doctors" asp-action="Search">Book Now</a>
+            </div>
+        </div>
+    </div>
+
 </div>
