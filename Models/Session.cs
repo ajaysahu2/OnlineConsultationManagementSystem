@@ -6,9 +6,11 @@ namespace OnlineConsultationManagementSystem.Models
     {
         [Key]
         public int SessionId { get; set; }
-        [DataType(DataType.Date)]
+        
+        [DataType(DataType.DateTime)]
         [Display(Name = "Session Date Time")]
-        public DateOnly Session_Date_Time { get; set; }
+        public DateTime Session_Date_Time { get; set; }
+        
         public string VideoLink {  get; set; }
     }
 }

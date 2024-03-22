@@ -20,7 +20,7 @@ namespace OnlineConsultationManagementSystem.Data
             modelBuilder.Entity<Session>().HasData(new Session
             {
                 SessionId = 1,
-                Session_Date_Time = new DateOnly(1993, 12, 1),
+                Session_Date_Time = new DateTime(1993, 12, 1),
                 VideoLink = "https://chat.openai.com/c/5d129c40-0119-40e6-8a7a-6ad30f40fc9b"
             });
 

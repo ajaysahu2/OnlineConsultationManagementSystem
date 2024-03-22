@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineConsultationManagementSystem.Data;
+using OnlineConsultationManagementSystem.Models;
 using OnlineConsultationManagementSystem.Models.Domain;
 using OnlineConsultationManagementSystem.Util;
 using OnlineConsultationManagementSystem.Util.Email;

@@ -19,28 +19,28 @@
                 @Html.DisplayNameFor(model => model.Doctor)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Session)
+                @Html.DisplayNameFor(model => model.Session.Session_Date_Time)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Consultation)
+                @Html.DisplayNameFor(model => model.Session.VideoLink)
             </th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Patient.PatientId)
+                @Html.DisplayFor(modelItem => item.Patient.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Doctor.DoctorId)
+                @Html.DisplayFor(modelItem => item.Doctor.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Session.SessionId)
+                @Html.DisplayFor(modelItem => item.Session.Session_Date_Time)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Consultation.ConsultationId)
+                    @Html.DisplayFor(modelItem => item.Session.VideoLink)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.AppointmentId">Edit</a> |

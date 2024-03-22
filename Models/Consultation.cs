@@ -6,7 +6,7 @@ namespace OnlineConsultationManagementSystem.Models
     {
         [Key]
         public int ConsultationId { get; set; }
-        public string Prescription {  get; set; }
-        public string Notes {  get; set; }
+        public string Prescription {  get; set; } = string.Empty;
+        public string Notes { get; set; } = string.Empty;
     }
 }

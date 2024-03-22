@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineConsultationManagementSystem.Models
 {
@@ -18,5 +19,7 @@ namespace OnlineConsultationManagementSystem.Models
         public DateOnly DateOfBirth { get; set; }
 
         public string Address { get; set; }
+
+       
     }
 }
