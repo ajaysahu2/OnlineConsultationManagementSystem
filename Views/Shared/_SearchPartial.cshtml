@@ -1,7 +1,18 @@
-﻿@using OnlineConsultationManagementSystem.Models
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineConsultationManagementSystem.Models.Domain
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
 <ul class="navbar-nav">
     <li class="nav-item">
         <a class="nav-link text-dark" asp-controller="Doctors"
            asp-action="Search">Find Doctor</a>
     </li>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Appointments"
+               asp-action="Index">My Appointments</a>
+        </li>
+    }
 </ul>

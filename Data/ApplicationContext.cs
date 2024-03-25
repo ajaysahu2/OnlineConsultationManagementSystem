@@ -24,7 +24,7 @@ namespace OnlineConsultationManagementSystem.Data
                 VideoLink = "https://chat.openai.com/c/5d129c40-0119-40e6-8a7a-6ad30f40fc9b"
             });
 
-            modelBuilder.Entity<Doctor>().HasData(new Doctor
+            _ = modelBuilder.Entity<Doctor>().HasData(new Doctor
             {
                 DoctorId = 1,
                 Name = "Ram",
